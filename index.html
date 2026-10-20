@@ -1,166 +1,479 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>我的小手机</title>
+<meta name="theme-color" content="#b9c5e5">
+<title>uushilove</title>
 <style>
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;min-height:100svh;display:grid;place-items:center;
-background:#eeebf5;font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#39334a}
+background:#e9eaf0;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;color:#111}
 button,input,textarea{font:inherit}
-button{cursor:pointer;border:0;color:inherit}
-.phone{width:min(370px,100vw);height:min(780px,100svh);
-position:relative;overflow:hidden;border:9px solid #faf9fc;
-border-radius:48px;background:linear-gradient(155deg,#ddd2f2,#f5dfed 55%,#bacbeb);
-box-shadow:0 25px 80px #66548335}
-.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);
-width:100px;height:25px;background:#292530;border-radius:20px;z-index:5}
-.status{height:51px;padding:16px 22px;font-size:12px;
+button{border:0;cursor:pointer;color:inherit}
+button:active{filter:brightness(.88)}
+.phone{width:min(390px,100vw);height:min(844px,100svh);
+position:relative;overflow:hidden;border:8px solid #26272a;border-radius:52px;
+background:#b9c5e5;box-shadow:0 25px 80px #0003}
+.wallpaper{position:absolute;inset:0;background:
+radial-gradient(ellipse at 90% 0%,#d7e5ff 0,transparent 60%),
+radial-gradient(ellipse at 0% 85%,#f5bfcf 0,transparent 60%),
+linear-gradient(145deg,#8e9bcf,#d4c9e8 55%,#98b5d6)}
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);
+width:105px;height:27px;border-radius:22px;background:#080809;z-index:20}
+.status{position:absolute;top:0;left:0;right:0;height:55px;
+display:flex;align-items:center;justify-content:space-between;
+padding:8px 25px 0;font-size:14px;font-weight:600;z-index:12;pointer-events:none}
+.signals{display:flex;align-items:center;gap:6px}
+.signals svg{width:17px;height:16px}
+.battery{width:24px;height:12px;border:1px solid currentColor;
+border-radius:4px;padding:2px;position:relative}
+.battery:before{content:"";display:block;background:currentColor;
+height:100%;width:85%;border-radius:1px}
+.battery:after{content:"";position:absolute;right:-3px;top:3px;
+height:4px;width:2px;background:currentColor;border-radius:1px}
+.home{position:absolute;inset:65px 0 0;padding:16px 22px 130px}
+.widget{height:132px;border-radius:24px;padding:20px;
+background:#ffffff70;backdrop-filter:blur(25px);margin-bottom:28px;
+box-shadow:0 5px 20px #4c578510;display:flex;justify-content:space-between}
+.widget .place{font-size:16px;font-weight:600}
+.temp{font-size:45px;font-weight:300;margin-top:3px}
+.weather-side{text-align:right;font-size:12px;line-height:1.8}
+.sun{display:block;color:#ffb800;font-size:38px;line-height:1.2}
+.apps{display:grid;grid-template-columns:repeat(4,1fr);gap:23px 10px}
+.app{padding:0;background:none;text-align:center;min-width:0}
+.app span.name{display:block;color:white;font-size:11px;
+margin-top:7px;text-shadow:0 1px 5px #48537c80;white-space:nowrap}
+.icon{width:59px;height:59px;border-radius:14px;display:grid;
+place-items:center;margin:auto;position:relative;overflow:hidden;
+box-shadow:0 2px 5px #00000012}
+.icon svg{width:42px;height:42px}
+.photos-icon,.calendar-icon,.clock-icon,.camera-icon{background:#fff}
+.notes-icon{background:linear-gradient(#ffd747 0 27%,#fff 27%)}
+.notes-icon:after{content:"";position:absolute;left:10px;right:10px;
+top:25px;height:25px;background:repeating-linear-gradient(
+transparent 0 7px,#d5d5d5 7px 8px)}
+.camera-icon{background:linear-gradient(#e1e3e7,#aeb2ba)}
+.camera-icon svg{width:44px;height:44px}
+.clock-icon{background:#080808}
+.calendar-icon .month{position:absolute;top:6px;color:#ff3b30;font-size:11px}
+.calendar-icon .day{font-size:35px;font-weight:300;margin-top:12px}
+.kakao-icon{background:#fee500}
+.insta-icon{background:radial-gradient(circle at 30% 105%,#ffd776 0,#ffb449 22%,
+#ed414c 45%,#c32c99 65%,#6259cf 95%)}
+.calc-icon{background:#252529}
+.mail-icon{background:linear-gradient(#087bff,#53b9ff)}
+.phone-icon,.message-icon{background:linear-gradient(#65e679,#22c944)}
+.safari-icon{background:#fff}
+.music-icon{background:linear-gradient(#ff6380,#fa264c)}
+.settings-icon{background:linear-gradient(#d1d4da,#8e939c)}
+.dock{position:absolute;bottom:23px;left:11px;right:11px;height:91px;
+border-radius:30px;background:#ffffff50;backdrop-filter:blur(28px);
+display:flex;align-items:center;justify-content:space-evenly;z-index:2}
+.dock .app{width:65px}
+.pages{text-align:center;position:absolute;bottom:134px;left:0;right:0;
+color:#fff9;font-size:15px;letter-spacing:6px}
+.homebar{position:absolute;bottom:8px;width:115px;height:5px;
+border-radius:5px;background:#111;left:50%;transform:translateX(-50%);z-index:25}
+.lock{position:absolute;inset:0;z-index:15;display:flex;
+align-items:center;flex-direction:column;padding-top:100px;color:#fff;
+background:radial-gradient(ellipse at 100% 0,#e6edff,transparent 65%),
+radial-gradient(ellipse at 0 90%,#f7b9cb,transparent 65%),
+linear-gradient(150deg,#8599cc,#c8b9dc 55%,#8cabcc)}
+.lockdate{font-size:19px;font-weight:500}
+.locktime{font-size:83px;font-weight:600;letter-spacing:-4px;line-height:1.2}
+.lockcaption{margin-top:28px;background:#ffffff30;
+border-radius:22px;padding:12px 22px;font-size:13px;backdrop-filter:blur(10px)}
+.lockbottom{position:absolute;bottom:75px;left:40px;right:40px;
 display:flex;justify-content:space-between}
-.home{padding:22px}
-.label{text-transform:uppercase;letter-spacing:4px;font-size:10px;opacity:.6}
-h1{font-size:30px;font-weight:500;margin:10px 0 26px}
-.widget{background:#ffffff70;border:1px solid #ffffff90;
-border-radius:25px;padding:23px;margin-bottom:30px}
-.widget p{font-size:14px;line-height:1.8;margin-bottom:0}
-.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px 15px;text-align:center}
-.app{background:none;padding:0;font-size:12px}
-.icon{width:62px;height:62px;border-radius:20px;display:grid;
-place-items:center;margin:0 auto 8px;font-size:28px;
-background:#ffffffa8;box-shadow:0 5px 15px #65547d10}
-.footer{position:absolute;bottom:28px;left:0;right:0;text-align:center;
-font-size:11px;letter-spacing:3px;opacity:.5}
-.lock{position:absolute;inset:0;z-index:4;display:flex;align-items:center;
-flex-direction:column;background:linear-gradient(160deg,#d6c8ee,#f1dce9 60%,#bccbe7);
-padding-top:110px;cursor:pointer}
-.locktime{font-size:76px;font-weight:200;letter-spacing:-5px}
-.lockdate{font-size:14px;margin-bottom:8px}
-.flower{font-size:100px;margin-top:65px;filter:drop-shadow(0 10px 20px #fff)}
-.unlock{position:absolute;bottom:65px;font-size:13px;letter-spacing:2px}
-.panel{position:absolute;inset:51px 0 0;background:#f9f7fc;
-z-index:3;padding:20px;overflow:auto}
+.locktool{background:#0003;color:#fff;border-radius:50%;
+width:45px;height:45px;display:grid;place-items:center}
+.locktool svg{width:23px;height:23px}
+.unlock{position:absolute;bottom:32px;background:none;color:#fff;
+font-size:13px;padding:10px 35px}
 .hidden{display:none!important}
-.top{display:flex;align-items:center;gap:18px;margin-bottom:24px}
-.back{background:#ebe5f4;border-radius:14px;padding:9px 14px}
-.top h2{font-size:20px;margin:0}
-textarea{width:100%;height:360px;resize:none;border:0;
-border-radius:20px;background:#eee8f5;padding:20px;line-height:1.8;outline:none}
-.tip{font-size:12px;color:#847c91;line-height:1.7}
-.action{background:#ded1ef;padding:12px 18px;border-radius:15px;
-display:inline-block;font-size:14px;margin:8px 0}
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}
-.gallery img{width:100%;height:155px;object-fit:cover;border-radius:16px}
-.record{width:180px;height:180px;border-radius:50%;background:
-repeating-radial-gradient(#35303e 0 3px,#45404f 4px 5px);
-margin:35px auto;display:grid;place-items:center}
-.record span{background:#dbc9ec;border-radius:50%;width:65px;height:65px;
-display:grid;place-items:center;font-size:28px}
-audio{width:100%;margin-top:20px}
-.display{background:#eee8f5;border-radius:18px;padding:20px;
-text-align:right;font-size:34px;overflow:auto;margin-bottom:15px}
-.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-.keys button{padding:17px 0;border-radius:15px;background:#e9e1f2;font-size:20px}
-.keys button:nth-child(4n){background:#d3c2e5}
-.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-width:100px;height:4px;background:#39334a;border-radius:5px;z-index:6}
-@media(max-width:400px){
-body{background:#ddd2f2}
-.phone{border:0;border-radius:0;width:100vw;height:100svh;box-shadow:none}
+.panel{position:absolute;inset:0;background:#f2f2f7;
+z-index:8;padding-top:57px;display:flex;flex-direction:column}
+.nav{height:53px;flex-shrink:0;display:flex;align-items:center;
+justify-content:space-between;padding:0 17px;border-bottom:1px solid #0001;
+background:#ffffffd9}
+.nav h2{font-size:17px;margin:0}
+.back{background:none;color:#007aff;font-size:16px;padding:10px 0}
+.nav-space{width:45px}
+.page{flex:1;overflow:auto;padding:20px 18px 35px}
+.tip{font-size:12px;color:#8e8e93;line-height:1.7}
+.action{display:inline-block;border:0;background:#007aff;color:white;
+padding:11px 16px;border-radius:12px;margin:8px 0;font-size:14px}
+.section-title{font-size:29px;margin:8px 0 20px;font-weight:700}
+textarea{border:0;background:#fff;border-radius:15px;padding:17px;
+width:100%;height:360px;font-size:16px;line-height:1.9;outline:none;resize:none}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:18px}
+.gallery img{width:100%;aspect-ratio:1;object-fit:cover}
+.empty{padding:60px 10px;text-align:center;color:#8e8e93;font-size:14px}
+.record{width:170px;height:170px;background:linear-gradient(145deg,#ffafbd,#a6b6ef);
+margin:24px auto;border-radius:16px;display:grid;place-items:center;
+box-shadow:0 15px 25px #b5a9cc55;color:#fff}
+.record svg{width:80px;height:80px}
+audio{width:100%;margin-top:25px}
+.display{padding:25px 5px;color:#fff;font-size:52px;
+text-align:right;overflow:auto;min-height:118px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.keys button{aspect-ratio:1;border-radius:50%;background:#333;color:#fff;font-size:26px}
+.keys button:nth-child(-n+3){background:#a5a5a5;color:#000}
+.keys button:nth-child(4n){background:#ff9f0a}
+.chat-page{padding:0 0 20px;display:flex;flex-direction:column}
+.conversation{flex:1;overflow:auto;padding:22px 16px}
+.chat-date{text-align:center;font-size:11px;color:#78828c;margin-bottom:22px}
+.bubble{width:fit-content;max-width:82%;padding:11px 14px;
+background:#fff;border-radius:17px;margin:9px 0;font-size:14px;
+line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.bubble.mine{margin-left:auto;background:#fee500}
+.compose{display:flex;gap:8px;padding:12px;background:#fff;flex-shrink:0}
+.compose input{width:0;flex:1;min-width:0;border:1px solid #ddd;
+border-radius:22px;padding:10px 13px;outline:none;font-size:14px}
+.compose button{background:#fee500;border-radius:50%;width:39px;height:39px;font-size:20px}
+#kakao{background:#b2c7d9}
+#messages{background:#fff}
+#messages .bubble{background:#e9e9eb}
+#messages .mine{background:#34c759;color:#fff}
+#messages .compose button{background:#34c759;color:#fff}
+.profile{text-align:center;padding:18px 0}
+.avatar{width:76px;height:76px;border-radius:50%;margin:auto;
+background:linear-gradient(140deg,#d8d0f2,#f8cbd5);
+border:3px solid #fff;box-shadow:0 0 0 2px #e6508b;display:grid;
+place-items:center;font-size:26px;color:#fff}
+.profile h3{font-size:16px;margin:15px 0 6px}
+.profile p{font-size:13px;color:#777}
+.stats{display:flex;justify-content:space-evenly;margin:24px 0;font-size:13px}
+.stats b{display:block;font-size:19px;margin-bottom:5px}
+.card{background:#fff;border-radius:15px;padding:16px;margin:12px 0}
+.row{display:flex;justify-content:space-between;gap:10px;
+padding:14px 0;border-bottom:1px solid #eee;font-size:15px}
+.row:last-child{border:0}
+.dialnumber{text-align:center;font-size:31px;min-height:65px;
+overflow-wrap:anywhere;margin:25px 0 15px}
+.dialpad{display:grid;grid-template-columns:repeat(3,1fr);
+gap:15px;max-width:270px;margin:auto}
+.dialpad button{border-radius:50%;aspect-ratio:1;background:#e5e5ea;font-size:29px}
+.call{display:block;width:68px;height:68px;margin:22px auto;
+border-radius:50%;background:#34c759;color:#fff}
+.call svg{width:35px;height:35px}
+.searchbox{width:100%;padding:14px;border:0;background:#e5e5ea;
+border-radius:12px;outline:none}
+.toast{position:absolute;bottom:40px;left:20px;right:20px;background:#222e;
+color:#fff;padding:13px;border-radius:15px;text-align:center;
+font-size:13px;z-index:30;pointer-events:none}
+@media(max-width:430px){
+.phone{width:100vw;height:100svh;border:0;border-radius:0;box-shadow:none}
+}
+@media(max-height:720px){
+.widget{height:105px;margin-bottom:20px;padding:14px 18px}
+.apps{gap:17px 10px}.home{padding-top:6px}
 }
 </style>
 </head>
 <body>
+
+<!-- 앱 아이콘 -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+<defs>
+<symbol id="s-message" viewBox="0 0 48 48">
+<path fill="currentColor" d="M24 7C12 7 4 14 4 23c0 5 3 10 8 13l-2 7 10-5h4c12 0 20-6 20-15S36 7 24 7Z"/>
+</symbol>
+<symbol id="s-phone" viewBox="0 0 48 48">
+<path fill="currentColor" d="m12 5 8 10-5 6c3 6 6 9 12 12l6-5 10 8c-1 6-5 9-10 8C17 41 7 31 4 15 3 10 6 6 12 5Z"/>
+</symbol>
+<symbol id="s-music" viewBox="0 0 48 48">
+<path fill="currentColor" d="M20 10v23c-2-1-5-1-7 0-5 2-6 7-3 10 4 3 12 0 13-5V18l15-4v14c-3-1-5 0-7 1-5 2-6 7-2 10 4 2 11-1 12-6V4Z"/>
+</symbol>
+<symbol id="s-camera" viewBox="0 0 48 48">
+<path fill="currentColor" d="M5 13h9l4-6h13l4 6h8v28H5Z"/>
+<circle cx="24" cy="26" r="10" fill="#aeb4bd"/>
+<circle cx="24" cy="26" r="7" fill="#242632"/>
+<circle cx="26" cy="24" r="3" fill="#485c7c"/>
+<circle cx="38" cy="18" r="2" fill="#ddd"/>
+</symbol>
+<symbol id="s-safari" viewBox="0 0 48 48">
+<circle cx="24" cy="24" r="21" fill="#199ef4"/>
+<circle cx="24" cy="24" r="17" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="1 4"/>
+<path d="m34 12-7 16-7-7Z" fill="#ff453a"/>
+<path d="m14 36 6-15 7 7Z" fill="#fff"/>
+</symbol>
+<symbol id="s-insta" viewBox="0 0 48 48">
+<rect x="8" y="8" width="32" height="32" rx="10" fill="none" stroke="currentColor" stroke-width="3"/>
+<circle cx="24" cy="24" r="8" fill="none" stroke="currentColor" stroke-width="3"/>
+<circle cx="34" cy="14" r="2.3" fill="currentColor"/>
+</symbol>
+<symbol id="s-mail" viewBox="0 0 48 48">
+<rect x="4" y="10" width="40" height="29" rx="4" fill="currentColor"/>
+<path d="m5 12 19 15 19-15" fill="none" stroke="#399dff" stroke-width="2"/>
+</symbol>
+<symbol id="s-clock" viewBox="0 0 48 48">
+<circle cx="24" cy="24" r="21" fill="#fff"/>
+<g stroke="#222" stroke-width="2">
+<path d="M24 5v4M24 39v4M5 24h4M39 24h4"/>
+<path d="M24 12v13l10 5" fill="none" stroke-linecap="round"/>
+</g>
+<path d="M24 9v18" stroke="#ff9500" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="2" fill="#ff9500"/>
+</symbol>
+<symbol id="s-photos" viewBox="0 0 48 48">
+<g opacity=".8">
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#ffb400"/>
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#ff7429" transform="rotate(45 24 24)"/>
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#f44268" transform="rotate(90 24 24)"/>
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#c95bb4" transform="rotate(135 24 24)"/>
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#6c82d3" transform="rotate(180 24 24)"/>
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#49b9da" transform="rotate(225 24 24)"/>
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#61c36f" transform="rotate(270 24 24)"/>
+<ellipse cx="24" cy="13" rx="7" ry="11" fill="#b2cf47" transform="rotate(315 24 24)"/>
+</g>
+</symbol>
+<symbol id="s-calc" viewBox="0 0 48 48">
+<rect x="6" y="5" width="36" height="10" rx="3" fill="#a4a4a4"/>
+<g fill="#ddd">
+<circle cx="12" cy="24" r="5"/><circle cx="25" cy="24" r="5"/>
+<circle cx="12" cy="38" r="5"/><circle cx="25" cy="38" r="5"/>
+</g>
+<rect x="34" y="19" width="9" height="24" rx="4" fill="#ff9f0a"/>
+</symbol>
+<symbol id="s-settings" viewBox="0 0 48 48">
+<g fill="none" stroke="#50545b">
+<circle cx="24" cy="24" r="15" stroke-width="9" stroke-dasharray="4 3"/>
+<circle cx="24" cy="24" r="12" stroke="#e3e5e8" stroke-width="3"/>
+<circle cx="24" cy="24" r="7" stroke-width="4"/>
+</g>
+</symbol>
+</defs>
+</svg>
+
 <main class="phone">
+<div class="wallpaper"></div>
 <div class="island"></div>
-<div class="status"><span id="smallTime"></span><span>●●●  Wi-Fi ▰</span></div>
+<div class="status">
+<span id="statusTime"></span>
+<div class="signals">
+<svg viewBox="0 0 20 16" fill="currentColor">
+<rect x="1" y="11" width="3" height="5" rx="1"/>
+<rect x="6" y="8" width="3" height="8" rx="1"/>
+<rect x="11" y="4" width="3" height="12" rx="1"/>
+<rect x="16" width="3" height="16" rx="1"/>
+</svg>
+<svg viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="2.5">
+<path d="M2 5q8-7 16 0M5 9q5-5 10 0M8 12q2-2 4 0"/>
+<circle cx="10" cy="15" r="1" fill="currentColor" stroke="none"/>
+</svg>
+<span class="battery"></span>
+</div>
+</div>
 
 <section class="home">
-<div class="label">a little space for me</div>
-<h1>我的小宇宙 ☁️</h1>
 <div class="widget">
-<div class="label">a note to myself</div>
-<p>把喜欢的瞬间收藏起来，<br>平凡的日子也会闪闪发光。🌷</p>
+<div>
+<div class="place">나의 작은 세상</div>
+<div class="temp">21°</div>
 </div>
-<div class="apps">
-<button class="app" onclick="openApp('photos')"><span class="icon">🌄</span>相册</button>
-<button class="app" onclick="openApp('notes')"><span class="icon">📝</span>备忘录</button>
-<button class="app" onclick="openApp('music')"><span class="icon">🎵</span>音乐</button>
-<button class="app" onclick="openApp('calc')"><span class="icon">🧮</span>计算器</button>
-<button class="app" onclick="lockPhone()"><span class="icon">🌙</span>锁屏</button>
-<button class="app" onclick="openApp('about')"><span class="icon">💌</span>关于</button>
+<div class="weather-side">
+<span class="sun">☀</span>
+맑은 하루<br>오늘도 행복하기
 </div>
+</div>
+<div id="apps" class="apps"></div>
 </section>
-<div class="footer">MADE OF LITTLE DREAMS</div>
 
-<section id="lock" class="lock" onclick="unlockPhone()"
-role="button" tabindex="0" aria-label="点击解锁"
-onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();unlockPhone()}">
+<div class="pages">● •</div>
+<div id="dock" class="dock"></div>
+
+<section id="lock" class="lock">
 <div id="lockDate" class="lockdate"></div>
 <div id="lockTime" class="locktime"></div>
-<div class="flower">🪻</div>
-<div class="unlock">轻点屏幕，进入我的世界 ↑</div>
+<div class="lockcaption">♡ uushilove ♡</div>
+<div class="lockbottom">
+<button class="locktool" onclick="flash()" aria-label="손전등">☼</button>
+<button class="locktool" onclick="unlock();openApp('photos')" aria-label="카메라">
+<svg><use href="#s-camera"/></svg>
+</button>
+</div>
+<button class="unlock" onclick="unlock()">위로 쓸어올려서 잠금 해제</button>
 </section>
 
 <section id="panel" class="panel hidden">
-<div class="top">
-<button class="back" onclick="closeApp()">‹ 返回</button>
-<h2 id="appTitle"></h2>
-</div>
+<header class="nav">
+<button class="back" onclick="closeApp()">‹ 홈</button>
+<h2 id="appTitle"></h2><span class="nav-space"></span>
+</header>
 
 <div id="photos" class="page hidden">
-<p class="tip">选择几张喜欢的照片，装点你的小相册。</p>
-<label class="action">＋ 添加照片
+<h2 class="section-title">보관함</h2>
+<label class="action">사진 추가
 <input id="photoInput" type="file" accept="image/*" multiple hidden>
 </label>
+<div id="photoEmpty" class="empty">좋아하는 순간을 담아 보세요.</div>
 <div id="gallery" class="gallery"></div>
-<p class="tip">照片只在这次打开的页面中显示，刷新后需要重新选择。</p>
+<p class="tip">선택한 사진은 이 페이지에서만 표시됩니다.<br>새로고침하면 다시 선택해야 합니다.</p>
 </div>
 
 <div id="notes" class="page hidden">
-<textarea id="note" placeholder="今天有什么想记下来的事？"></textarea>
-<p id="saveTip" class="tip">文字会自动保存在当前浏览器里。</p>
+<h2 class="section-title">메모</h2>
+<textarea id="note" placeholder="오늘의 마음을 기록해 보세요."></textarea>
+<p id="noteTip" class="tip">이 브라우저에 자동으로 저장됩니다.</p>
 </div>
 
 <div id="music" class="page hidden">
-<div class="record"><span>♪</span></div>
-<p id="songName" style="text-align:center">给今天选一首背景音乐</p>
-<label class="action">选择手机里的音频
+<div class="record"><svg><use href="#s-music"/></svg></div>
+<h3 id="songName" style="text-align:center">나의 플레이리스트</h3>
+<label class="action">음악 선택
 <input id="musicInput" type="file" accept="audio/*" hidden>
 </label>
 <audio id="audio" controls></audio>
-<p class="tip">选择本地音频后，点击播放器播放。刷新后需重新选择。</p>
+<p class="tip">기기에 있는 음악 파일을 선택해 주세요.<br>새로고침하면 다시 선택해야 합니다.</p>
 </div>
 
-<div id="calc" class="page hidden">
+<div id="calc" class="page hidden" style="background:#000">
 <div id="display" class="display">0</div>
 <div id="keys" class="keys"></div>
 </div>
 
-<div id="about" class="page hidden">
-<div style="font-size:65px;text-align:center;margin:40px">💌</div>
-<h2>欢迎来到我的小宇宙</h2>
-<p style="line-height:2">这是属于我的一小块网络空间。<br>
-用来收藏照片、写下心情，<br>还有那些舍不得忘记的小事。</p>
-<p class="tip">你可以在代码里修改这段介绍，以及首页的标题和句子。</p>
+<div id="kakao" class="page chat-page hidden">
+<div class="conversation" id="kakaoConversation">
+<div class="chat-date">나와의 채팅 · 데모</div>
+<div class="bubble">안녕! 오늘 하루는 어땠어? ♡</div>
+</div>
+<form class="compose" onsubmit="sendMessage(event,'kakao')">
+<input aria-label="카카오톡 메시지" placeholder="메시지 입력">
+<button aria-label="보내기">↑</button>
+</form>
+</div>
+
+<div id="messages" class="page chat-page hidden">
+<div class="conversation" id="messagesConversation">
+<div class="chat-date">iMessage · 데모</div>
+<div class="bubble">오늘도 좋은 하루 보내 🤍</div>
+</div>
+<form class="compose" onsubmit="sendMessage(event,'messages')">
+<input aria-label="iMessage 메시지" placeholder="iMessage">
+<button aria-label="보내기">↑</button>
+</form>
+</div>
+
+<div id="instagram" class="page hidden" style="background:#fff">
+<div class="profile">
+<div class="avatar">u</div>
+<h3>uushilove</h3>
+<p>작고 소중한 순간들 ♡</p>
+</div>
+<div class="stats">
+<div><b id="postCount">0</b>게시물</div>
+<div><b>128</b>팔로워</div>
+<div><b>52</b>팔로잉</div>
+</div>
+<label class="action">게시물 추가
+<input id="instaInput" type="file" accept="image/*" multiple hidden>
+</label>
+<div id="instaGallery" class="gallery"></div>
+<p class="tip">꾸미기용 프로필입니다. 실제 Instagram에 게시되지 않습니다.<br>사진은 새로고침하면 사라집니다.</p>
+</div>
+
+<div id="phone" class="page hidden" style="background:#fff">
+<div id="dialnumber" class="dialnumber"></div>
+<div id="dialpad" class="dialpad"></div>
+<button class="call" onclick="toast('실제 전화 연결은 지원하지 않습니다.')" aria-label="전화">
+<svg><use href="#s-phone"/></svg>
+</button>
+<button class="back" style="display:block;margin:auto"
+onclick="dial=dial.slice(0,-1);document.getElementById('dialnumber').textContent=dial">지우기</button>
+</div>
+
+<div id="safari" class="page hidden" style="background:#fff">
+<h2 class="section-title">즐겨찾기</h2>
+<form onsubmit="searchWeb(event)">
+<input class="searchbox" aria-label="웹 검색" placeholder="검색어 입력">
+<button class="action">웹 검색 ↗</button>
+</form>
+<p class="tip">검색 결과는 새 탭에서 열립니다.</p>
+<div class="card" style="background:#f2f2f7;line-height:2">
+나만의 작은 인터넷 공간.<br>오늘은 어떤 이야기를 찾아볼까요?
+</div>
+</div>
+
+<div id="calendar" class="page hidden" style="background:#fff">
+<h2 class="section-title" id="calendarTitle"></h2>
+<div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:7px;text-align:center"></div>
+</div>
+
+<div id="clock" class="page hidden" style="background:#111;color:#fff;text-align:center">
+<h2 class="section-title">세계 시계</h2>
+<p class="tip">현재 기기의 현지 시간</p>
+<div id="bigClock" style="font-size:62px;font-weight:200;margin:55px 0"></div>
+<button class="action" onclick="lockPhone()">잠금 화면 보기</button>
+</div>
+
+<div id="mail" class="page hidden">
+<h2 class="section-title">받은 편지함</h2>
+<div class="card">
+<b>나에게 보내는 편지</b>
+<p style="font-size:14px;line-height:1.9">
+서두르지 않아도 괜찮아.<br>
+너만의 속도로, 너만의 하루를 만들어 가길.<br><br>
+언제나 너를 응원해 ♡
+</p>
+</div>
+<p class="tip">이 편지는 웹사이트의 예시 콘텐츠입니다.</p>
+</div>
+
+<div id="settings" class="page hidden">
+<h2 class="section-title">설정</h2>
+<div class="card">
+<div class="row"><span>이름</span><span>uushilove</span></div>
+<div class="row"><span>언어</span><span>한국어</span></div>
+<div class="row"><span>스타일</span><span>클래식 iOS</span></div>
+</div>
+<button class="action" onclick="lockPhone()">화면 잠그기</button>
+<p class="tip">이 사이트는 개인용 가상 휴대폰입니다.<br>
+날씨, 프로필 숫자, 대화는 예시입니다.<br>
+채팅 메시지는 새로고침하면 사라집니다.</p>
 </div>
 </section>
-<div class="homebar"></div>
+
+<div id="toast" class="toast hidden" role="status"></div>
+<button class="homebar" onclick="closeApp()" aria-label="홈으로"></button>
 </main>
+
 <script>
 const $=id=>document.getElementById(id);
-function clock(){
- const now=new Date();
- const time=now.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false});
- $('smallTime').textContent=time;
- $('lockTime').textContent=time;
- $('lockDate').textContent=now.toLocaleDateString('zh-CN',
- {month:'long',day:'numeric',weekday:'long'});
+const icon=(symbol,color='white')=>
+`<svg viewBox="0 0 48 48" style="color:${color}" aria-hidden="true"><use href="#s-${symbol}"/></svg>`;
+
+const apps=[
+ ['photos','사진','photos',icon('photos')],
+ ['calendar','캘린더','calendar','<span class="month">캘린더</span><span id="iconDay" class="day"></span>'],
+ ['camera','카메라','camera',icon('camera','#34363d')],
+ ['clock','시계','clock',icon('clock')],
+ ['notes','메모','notes',''],
+ ['kakao','카카오톡','kakao',icon('message','#382021')],
+ ['instagram','Instagram','insta',icon('insta')],
+ ['calc','계산기','calc',icon('calc')],
+ ['mail','메일','mail',icon('mail')],
+ ['settings','설정','settings',icon('settings')]
+];
+const dock=[
+ ['phone','전화','phone',icon('phone')],
+ ['safari','Safari','safari',icon('safari')],
+ ['messages','메시지','message',icon('message')],
+ ['music','음악','music',icon('music')]
+];
+function appButton(a,showName){
+ const b=document.createElement('button');
+ b.className='app';b.setAttribute('aria-label',a[1]);
+ b.innerHTML=`<div class="icon ${a[2]}-icon">${a[3]}</div>`+
+ (showName?`<span class="name">${a[1]}</span>`:'');
+ b.onclick=()=>openApp(a[0]==='camera'?'photos':a[0]);
+ return b;
 }
-clock();setInterval(clock,1000);
-function unlockPhone(){$('lock').classList.add('hidden')}
-function lockPhone(){closeApp();$('lock').classList.remove('hidden')}
-const titles={photos:'小相册',notes:'备忘录',music:'音乐时间',calc:'计算器',about:'关于我'};
+apps.forEach(a=>$('apps').appendChild(appButton(a,true)));
+dock.forEach(a=>$('dock').appendChild(appButton(a,false)));
+
+const titles=Object.fromEntries([...apps,...dock].map(a=>[a[0],a[1]]));
 function openApp(id){
  document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
  $(id).classList.remove('hidden');
@@ -168,20 +481,72 @@ function openApp(id){
  $('panel').classList.remove('hidden');
 }
 function closeApp(){$('panel').classList.add('hidden')}
-try{$('note').value=localStorage.getItem('my-phone-note')||''}catch(e){}
+function unlock(){$('lock').classList.add('hidden')}
+function lockPhone(){closeApp();$('lock').classList.remove('hidden')}
+
+let touchStartY=0;
+$('lock').addEventListener('touchstart',e=>{
+ touchStartY=e.touches[0].clientY;
+},{passive:true});
+$('lock').addEventListener('touchend',e=>{
+ if(touchStartY-e.changedTouches[0].clientY>40)unlock();
+},{passive:true});
+
+function clock(){
+ const now=new Date();
+ const t=now.toLocaleTimeString('ko-KR',{
+ hour:'2-digit',minute:'2-digit',hour12:false
+ });
+ $('statusTime').textContent=t;
+ $('lockTime').textContent=t;
+ $('bigClock').textContent=t;
+ $('lockDate').textContent=now.toLocaleDateString('ko-KR',{
+ month:'long',day:'numeric',weekday:'long'
+ });
+ $('iconDay').textContent=now.getDate();
+}
+clock();setInterval(clock,1000);
+
+let toastTimer;
+function toast(text){
+ $('toast').textContent=text;$('toast').classList.remove('hidden');
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>$('toast').classList.add('hidden'),2500);
+}
+let flashOn=false;
+function flash(){
+ flashOn=!flashOn;
+ $('lock').style.filter=flashOn?'brightness(1.15)':'';
+ toast(flashOn?'화면 밝게 켜짐':'화면 밝게 꺼짐');
+}
+
+try{$('note').value=localStorage.getItem('uushi-ios-note')||''}catch(e){}
 $('note').addEventListener('input',()=>{
- try{localStorage.setItem('my-phone-note',$('note').value)}
- catch(e){$('saveTip').textContent='当前浏览器无法保存，请自行复制留存。'}
+ try{localStorage.setItem('uushi-ios-note',$('note').value)}
+ catch(e){$('noteTip').textContent='저장할 수 없습니다. 내용을 복사해 주세요.'}
 });
-$('photoInput').addEventListener('change',event=>{
+
+function addPhotos(inputId,galleryId){
+ $(inputId).addEventListener('change',event=>{
  for(const file of event.target.files){
  if(!file.type.startsWith('image/'))continue;
  const img=document.createElement('img');
  const url=URL.createObjectURL(file);
- img.alt=file.name;img.onload=()=>URL.revokeObjectURL(url);
- img.src=url;$('gallery').appendChild(img);
+ img.alt=file.name;
+ img.onload=()=>URL.revokeObjectURL(url);
+ img.onerror=()=>URL.revokeObjectURL(url);
+ img.src=url;$(galleryId).appendChild(img);
  }
-});
+ if(galleryId==='gallery'&&$('gallery').children.length){
+ $('photoEmpty').classList.add('hidden');
+ }
+ $('postCount').textContent=$('instaGallery').children.length;
+ event.target.value='';
+ });
+}
+addPhotos('photoInput','gallery');
+addPhotos('instaInput','instaGallery');
+
 let musicUrl;
 $('musicInput').addEventListener('change',event=>{
  const file=event.target.files[0];if(!file)return;
@@ -191,47 +556,92 @@ $('musicInput').addEventListener('change',event=>{
  $('audio').src=musicUrl;
  $('songName').textContent=file.name;
 });
+
+function sendMessage(event,id){
+ event.preventDefault();
+ const input=event.target.querySelector('input');
+ const text=input.value.trim();if(!text)return;
+ const bubble=document.createElement('div');
+ bubble.className='bubble mine';bubble.textContent=text;
+ const chat=$(id+'Conversation');
+ chat.appendChild(bubble);input.value='';
+ chat.scrollTop=chat.scrollHeight;
+}
+
+let dial='';
+'123456789*0#'.split('').forEach(n=>{
+ const b=document.createElement('button');b.textContent=n;
+ b.onclick=()=>{if(dial.length<20)dial+=n;$('dialnumber').textContent=dial};
+ $('dialpad').appendChild(b);
+});
+function searchWeb(event){
+ event.preventDefault();
+ const q=event.target.querySelector('input').value.trim();
+ if(q)window.open('https://www.google.com/search?q='+encodeURIComponent(q),
+ '_blank','noopener,noreferrer');
+}
+
+function renderCalendar(){
+ const d=new Date(),y=d.getFullYear(),m=d.getMonth();
+ $('calendarTitle').textContent=`${y}년 ${m+1}월`;
+ const grid=$('calendarGrid');grid.replaceChildren();
+ ['일','월','화','수','목','금','토'].forEach((day,i)=>{
+ const el=document.createElement('div');el.textContent=day;
+ el.style.cssText='padding:12px 0;font-size:12px;color:'+(i===0?'#ff3b30':'#888');
+ grid.appendChild(el);
+ });
+ const first=new Date(y,m,1).getDay();
+ for(let i=0;i<first;i++)grid.appendChild(document.createElement('div'));
+ const count=new Date(y,m+1,0).getDate();
+ for(let i=1;i<=count;i++){
+ const el=document.createElement('div');el.textContent=i;
+ el.style.cssText='padding:10px 0;border-radius:50%;font-size:16px';
+ if(i===d.getDate())el.style.cssText+=';background:#ff3b30;color:white';
+ grid.appendChild(el);
+ }
+}
+renderCalendar();
+
 let value='0',previous=null,operator=null,fresh=true;
 function show(){$('display').textContent=value}
 function calculate(){
- if(previous===null||!operator)return;
+ if(previous===null||operator===null)return;
  const a=Number(previous),b=Number(value);
- let result;
- if(operator==='+')result=a+b;
- if(operator==='−')result=a-b;
- if(operator==='×')result=a*b;
- if(operator==='÷')result=b===0?NaN:a/b;
- value=Number.isFinite(result)?String(Number(result.toPrecision(10))):'错误';
+ let r;
+ if(operator==='+')r=a+b;
+ if(operator==='−')r=a-b;
+ if(operator==='×')r=a*b;
+ if(operator==='÷')r=b===0?NaN:a/b;
+ value=Number.isFinite(r)?String(Number(r.toPrecision(10))):'오류';
  previous=null;operator=null;
 }
 function key(k){
- if(k==='C'){value='0';previous=null;operator=null;fresh=true}
- else if(k==='⌫'){
+ if(k==='AC'){
+ value='0';previous=null;operator=null;fresh=true;
+ }else if(k==='⌫'){
  if(!fresh)value=value.length>1?value.slice(0,-1):'0';
- }
- else if(k==='±'){if(value!=='错误')value=String(-Number(value))}
- else if(k==='%'){if(value!=='错误')value=String(Number(value)/100)}
- else if(['+','−','×','÷'].includes(k)){
- if(value==='错误')return;
- if(operator&&!fresh)calculate();
- if(value==='错误'){fresh=true;show();return}
+ }else if(k==='±'){
+ if(value!=='오류')value=String(-Number(value));
+ }else if(k==='%'){
+ if(value!=='오류')value=String(Number(value)/100);
+ }else if(['+','−','×','÷'].includes(k)){
+ if(value==='오류')return;
+ if(operator!==null&&!fresh)calculate();
+ if(value==='오류'){fresh=true;show();return}
  previous=value;operator=k;fresh=true;
- }
- else if(k==='='){
+ }else if(k==='='){
  if(operator!==null&&!fresh){calculate();fresh=true}
- }
- else{
- if(fresh||value==='错误'){value='0';fresh=false}
+ }else{
+ if(fresh||value==='오류'){value='0';fresh=false}
  if(k==='.'){if(!value.includes('.'))value+='.'}
- else{value=value==='0'?k:value+k}
+ else if(value.length<13)value=value==='0'?k:value+k;
  }
  show();
 }
-['C','±','%','÷','7','8','9','×','4','5','6','−',
- '1','2','3','+','⌫','0','.','='].forEach(k=>{
- const button=document.createElement('button');
- button.textContent=k;button.onclick=()=>key(k);
- $('keys').appendChild(button);
+['AC','±','%','÷','7','8','9','×','4','5','6','−',
+'1','2','3','+','⌫','0','.','='].forEach(k=>{
+ const b=document.createElement('button');b.textContent=k;
+ b.onclick=()=>key(k);$('keys').appendChild(b);
 });
 </script>
 </body>
