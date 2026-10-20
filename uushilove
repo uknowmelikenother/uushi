@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>我的小手机</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;display:grid;place-items:center;
+background:#eeebf5;font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#39334a}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0;color:inherit}
+.phone{width:min(370px,100vw);height:min(780px,100svh);
+position:relative;overflow:hidden;border:9px solid #faf9fc;
+border-radius:48px;background:linear-gradient(155deg,#ddd2f2,#f5dfed 55%,#bacbeb);
+box-shadow:0 25px 80px #66548335}
+.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);
+width:100px;height:25px;background:#292530;border-radius:20px;z-index:5}
+.status{height:51px;padding:16px 22px;font-size:12px;
+display:flex;justify-content:space-between}
+.home{padding:22px}
+.label{text-transform:uppercase;letter-spacing:4px;font-size:10px;opacity:.6}
+h1{font-size:30px;font-weight:500;margin:10px 0 26px}
+.widget{background:#ffffff70;border:1px solid #ffffff90;
+border-radius:25px;padding:23px;margin-bottom:30px}
+.widget p{font-size:14px;line-height:1.8;margin-bottom:0}
+.apps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px 15px;text-align:center}
+.app{background:none;padding:0;font-size:12px}
+.icon{width:62px;height:62px;border-radius:20px;display:grid;
+place-items:center;margin:0 auto 8px;font-size:28px;
+background:#ffffffa8;box-shadow:0 5px 15px #65547d10}
+.footer{position:absolute;bottom:28px;left:0;right:0;text-align:center;
+font-size:11px;letter-spacing:3px;opacity:.5}
+.lock{position:absolute;inset:0;z-index:4;display:flex;align-items:center;
+flex-direction:column;background:linear-gradient(160deg,#d6c8ee,#f1dce9 60%,#bccbe7);
+padding-top:110px;cursor:pointer}
+.locktime{font-size:76px;font-weight:200;letter-spacing:-5px}
+.lockdate{font-size:14px;margin-bottom:8px}
+.flower{font-size:100px;margin-top:65px;filter:drop-shadow(0 10px 20px #fff)}
+.unlock{position:absolute;bottom:65px;font-size:13px;letter-spacing:2px}
+.panel{position:absolute;inset:51px 0 0;background:#f9f7fc;
+z-index:3;padding:20px;overflow:auto}
+.hidden{display:none!important}
+.top{display:flex;align-items:center;gap:18px;margin-bottom:24px}
+.back{background:#ebe5f4;border-radius:14px;padding:9px 14px}
+.top h2{font-size:20px;margin:0}
+textarea{width:100%;height:360px;resize:none;border:0;
+border-radius:20px;background:#eee8f5;padding:20px;line-height:1.8;outline:none}
+.tip{font-size:12px;color:#847c91;line-height:1.7}
+.action{background:#ded1ef;padding:12px 18px;border-radius:15px;
+display:inline-block;font-size:14px;margin:8px 0}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:15px}
+.gallery img{width:100%;height:155px;object-fit:cover;border-radius:16px}
+.record{width:180px;height:180px;border-radius:50%;background:
+repeating-radial-gradient(#35303e 0 3px,#45404f 4px 5px);
+margin:35px auto;display:grid;place-items:center}
+.record span{background:#dbc9ec;border-radius:50%;width:65px;height:65px;
+display:grid;place-items:center;font-size:28px}
+audio{width:100%;margin-top:20px}
+.display{background:#eee8f5;border-radius:18px;padding:20px;
+text-align:right;font-size:34px;overflow:auto;margin-bottom:15px}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.keys button{padding:17px 0;border-radius:15px;background:#e9e1f2;font-size:20px}
+.keys button:nth-child(4n){background:#d3c2e5}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+width:100px;height:4px;background:#39334a;border-radius:5px;z-index:6}
+@media(max-width:400px){
+body{background:#ddd2f2}
+.phone{border:0;border-radius:0;width:100vw;height:100svh;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<main class="phone">
+<div class="island"></div>
+<div class="status"><span id="smallTime"></span><span>●●●  Wi-Fi ▰</span></div>
+
+<section class="home">
+<div class="label">a little space for me</div>
+<h1>我的小宇宙 ☁️</h1>
+<div class="widget">
+<div class="label">a note to myself</div>
+<p>把喜欢的瞬间收藏起来，<br>平凡的日子也会闪闪发光。🌷</p>
+</div>
+<div class="apps">
+<button class="app" onclick="openApp('photos')"><span class="icon">🌄</span>相册</button>
+<button class="app" onclick="openApp('notes')"><span class="icon">📝</span>备忘录</button>
+<button class="app" onclick="openApp('music')"><span class="icon">🎵</span>音乐</button>
+<button class="app" onclick="openApp('calc')"><span class="icon">🧮</span>计算器</button>
+<button class="app" onclick="lockPhone()"><span class="icon">🌙</span>锁屏</button>
+<button class="app" onclick="openApp('about')"><span class="icon">💌</span>关于</button>
+</div>
+</section>
+<div class="footer">MADE OF LITTLE DREAMS</div>
+
+<section id="lock" class="lock" onclick="unlockPhone()"
+role="button" tabindex="0" aria-label="点击解锁"
+onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();unlockPhone()}">
+<div id="lockDate" class="lockdate"></div>
+<div id="lockTime" class="locktime"></div>
+<div class="flower">🪻</div>
+<div class="unlock">轻点屏幕，进入我的世界 ↑</div>
+</section>
+
+<section id="panel" class="panel hidden">
+<div class="top">
+<button class="back" onclick="closeApp()">‹ 返回</button>
+<h2 id="appTitle"></h2>
+</div>
+
+<div id="photos" class="page hidden">
+<p class="tip">选择几张喜欢的照片，装点你的小相册。</p>
+<label class="action">＋ 添加照片
+<input id="photoInput" type="file" accept="image/*" multiple hidden>
+</label>
+<div id="gallery" class="gallery"></div>
+<p class="tip">照片只在这次打开的页面中显示，刷新后需要重新选择。</p>
+</div>
+
+<div id="notes" class="page hidden">
+<textarea id="note" placeholder="今天有什么想记下来的事？"></textarea>
+<p id="saveTip" class="tip">文字会自动保存在当前浏览器里。</p>
+</div>
+
+<div id="music" class="page hidden">
+<div class="record"><span>♪</span></div>
+<p id="songName" style="text-align:center">给今天选一首背景音乐</p>
+<label class="action">选择手机里的音频
+<input id="musicInput" type="file" accept="audio/*" hidden>
+</label>
+<audio id="audio" controls></audio>
+<p class="tip">选择本地音频后，点击播放器播放。刷新后需重新选择。</p>
+</div>
+
+<div id="calc" class="page hidden">
+<div id="display" class="display">0</div>
+<div id="keys" class="keys"></div>
+</div>
+
+<div id="about" class="page hidden">
+<div style="font-size:65px;text-align:center;margin:40px">💌</div>
+<h2>欢迎来到我的小宇宙</h2>
+<p style="line-height:2">这是属于我的一小块网络空间。<br>
+用来收藏照片、写下心情，<br>还有那些舍不得忘记的小事。</p>
+<p class="tip">你可以在代码里修改这段介绍，以及首页的标题和句子。</p>
+</div>
+</section>
+<div class="homebar"></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+function clock(){
+ const now=new Date();
+ const time=now.toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false});
+ $('smallTime').textContent=time;
+ $('lockTime').textContent=time;
+ $('lockDate').textContent=now.toLocaleDateString('zh-CN',
+ {month:'long',day:'numeric',weekday:'long'});
+}
+clock();setInterval(clock,1000);
+function unlockPhone(){$('lock').classList.add('hidden')}
+function lockPhone(){closeApp();$('lock').classList.remove('hidden')}
+const titles={photos:'小相册',notes:'备忘录',music:'音乐时间',calc:'计算器',about:'关于我'};
+function openApp(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+ $(id).classList.remove('hidden');
+ $('appTitle').textContent=titles[id];
+ $('panel').classList.remove('hidden');
+}
+function closeApp(){$('panel').classList.add('hidden')}
+try{$('note').value=localStorage.getItem('my-phone-note')||''}catch(e){}
+$('note').addEventListener('input',()=>{
+ try{localStorage.setItem('my-phone-note',$('note').value)}
+ catch(e){$('saveTip').textContent='当前浏览器无法保存，请自行复制留存。'}
+});
+$('photoInput').addEventListener('change',event=>{
+ for(const file of event.target.files){
+ if(!file.type.startsWith('image/'))continue;
+ const img=document.createElement('img');
+ const url=URL.createObjectURL(file);
+ img.alt=file.name;img.onload=()=>URL.revokeObjectURL(url);
+ img.src=url;$('gallery').appendChild(img);
+ }
+});
+let musicUrl;
+$('musicInput').addEventListener('change',event=>{
+ const file=event.target.files[0];if(!file)return;
+ $('audio').pause();
+ if(musicUrl)URL.revokeObjectURL(musicUrl);
+ musicUrl=URL.createObjectURL(file);
+ $('audio').src=musicUrl;
+ $('songName').textContent=file.name;
+});
+let value='0',previous=null,operator=null,fresh=true;
+function show(){$('display').textContent=value}
+function calculate(){
+ if(previous===null||!operator)return;
+ const a=Number(previous),b=Number(value);
+ let result;
+ if(operator==='+')result=a+b;
+ if(operator==='−')result=a-b;
+ if(operator==='×')result=a*b;
+ if(operator==='÷')result=b===0?NaN:a/b;
+ value=Number.isFinite(result)?String(Number(result.toPrecision(10))):'错误';
+ previous=null;operator=null;
+}
+function key(k){
+ if(k==='C'){value='0';previous=null;operator=null;fresh=true}
+ else if(k==='⌫'){
+ if(!fresh)value=value.length>1?value.slice(0,-1):'0';
+ }
+ else if(k==='±'){if(value!=='错误')value=String(-Number(value))}
+ else if(k==='%'){if(value!=='错误')value=String(Number(value)/100)}
+ else if(['+','−','×','÷'].includes(k)){
+ if(value==='错误')return;
+ if(operator&&!fresh)calculate();
+ if(value==='错误'){fresh=true;show();return}
+ previous=value;operator=k;fresh=true;
+ }
+ else if(k==='='){
+ if(operator!==null&&!fresh){calculate();fresh=true}
+ }
+ else{
+ if(fresh||value==='错误'){value='0';fresh=false}
+ if(k==='.'){if(!value.includes('.'))value+='.'}
+ else{value=value==='0'?k:value+k}
+ }
+ show();
+}
+['C','±','%','÷','7','8','9','×','4','5','6','−',
+ '1','2','3','+','⌫','0','.','='].forEach(k=>{
+ const button=document.createElement('button');
+ button.textContent=k;button.onclick=()=>key(k);
+ $('keys').appendChild(button);
+});
+</script>
+</body>
+</html>
